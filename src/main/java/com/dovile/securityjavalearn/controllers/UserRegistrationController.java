@@ -27,11 +27,10 @@ public class UserRegistrationController {
 
 
     @PostMapping
-    public String registerUserAccount(@ModelAttribute("user") UserRequest userRequest ) {
-
-        if (userRequest.getEmail().equals("test1@test.com")) {
-            return "registration";
-        }
+    public String registerUserAccount(@ModelAttribute("user") UserRequest userRequest) {
+//        if (userRequest.getEmail().equals("test1@test.com")) {
+//            return "registration";
+//        }
         userService.save(userRequest);
         return "redirect:/registration?success";
     }
