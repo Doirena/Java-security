@@ -6,10 +6,11 @@ import com.dovile.securityjavalearn.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLIntegrityConstraintViolationException;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/registration")
@@ -25,12 +26,20 @@ public class UserRegistrationController {
         return "registration";
     }
 
-
     @PostMapping
-    public String registerUserAccount(@ModelAttribute("user") UserRequest userRequest) {
-//        if (userRequest.getEmail().equals("test1@test.com")) {
-//            return "registration";
-//        }
+    public String registerUserAccount(@Valid @ModelAttribute("user") UserRequest userRequest, BindingResult bindingResult,
+                                      ModelMap model) {
+        userValidator.validate(userRequest, bindingResult);
+        //Check it is valid every fields not empty
+        if (bindingResult.hasErrors()) {
+            return "registration";
+        }
+        //Check email is not dublicate
+        if (userService.existByEmail(userRequest.getEmail())) {
+            model.addAttribute("dublicate", "Someone already has that username");
+            return "registration";
+        }
+
         userService.save(userRequest);
         return "redirect:/registration?success";
     }
