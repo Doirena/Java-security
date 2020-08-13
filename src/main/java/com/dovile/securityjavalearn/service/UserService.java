@@ -8,9 +8,28 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 
+/**
+ * @author barkauskaite.dovile@gmail.com
+ */
 public interface UserService extends UserDetailsService {
-    User save(UserRequest userRequest);
-
+    /**
+     *
+     * @param userRequest
+     * @return new User
+     */
+    User save(UserRequest userRequest );
+    /**
+     *
+     * @param s
+     * @return user by email
+     * @throws UsernameNotFoundException
+     */
     @Override
     UserDetails loadUserByUsername(String s) throws UsernameNotFoundException;
+    /**
+     *
+     * @param email
+     * @return check if email exist
+     */
+    Boolean existByEmail(String email);
 }
