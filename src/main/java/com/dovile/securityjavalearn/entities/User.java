@@ -1,6 +1,7 @@
 package com.dovile.securityjavalearn.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
@@ -9,15 +10,15 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @NotNull
     @Column(name = "first_name")
     private String firstName;
-
+    @NotNull
     @Column(name = "last_name")
     private String lastName;
-
+    @NotNull
     private String email;
-
+    @NotNull
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
